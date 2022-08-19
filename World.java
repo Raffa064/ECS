@@ -12,19 +12,11 @@ public class World {
 	private List<Entity> entities = new ArrayList<>();
 	private List<Entity> entitiesToRemove = new ArrayList<>();
 	private int current_max_id = 0;
-	private boolean saveLogs;
-	private String logs;
-
-	public World(boolean saveLogs) {
-		this.saveLogs = saveLogs;
+	
+	public World() {
 	}
 
 	public void setLogs(String logs) {
-		this.logs = logs;
-	}
-
-	public String getLogs() {
-		return logs;
 	}
 
 	public List<Entity> getEntities() {
@@ -103,15 +95,11 @@ public class World {
 	}
 	
 	public void update(float delta) {
-		if (saveLogs) logs = "";
 		for (System system : systems) {
-			long time = java.lang.System.nanoTime();
 			system.start();
 			for (Entity entity : system.entities) {
 				system.process(this, entity, delta);
 			}
-			time = java.lang.System.nanoTime() - time;
-			if (saveLogs) logs += system.getClass().getName()+": "+Math.floor(time/10000000000d)+"\n";
 			system.end();
 		}
 		for (Entity entity : entitiesToRemove) {
