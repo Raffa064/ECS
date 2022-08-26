@@ -1,4 +1,4 @@
-![banner](./img/banner.png)
+![banner](./img/banner.jpg)
 
 # ABOUT
 Autor: Raffa064
