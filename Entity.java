@@ -7,7 +7,16 @@ public class Entity {
     private BinaryTree<Component> components = new BinaryTree<>();  //Tree of components, is a best way to improve process speed
 	private World world;
 	private int id; //Entity id, can be used for get the entity in the world using getEntity() method 
+	private boolean actived; //Is true when entity is added to the world, false when rmeoved from the world
 
+	protected void setActived(boolean actived) {
+		this.actived = actived;
+	}
+
+	public boolean isActived() {
+		return actived;
+	} 
+	
 	//Automatically called by the World when add the entity in the World entity list
 	public void setWorld(World world) {
 		this.world = world;

@@ -21,9 +21,9 @@ public class World {
 	}
 	
 	//Search for a system by the given class
-	public <T> System getSystem(Class<T> systemType) {
+	public <T extends System> System getSystem(Class<T> systemType) {
 		for (int i = 0; i < systems.size(); i++) {
-			if (systems.get(i).getClass() instanceof T) {
+			if (systems.get(i).getClass().getName().hashCode() == systemType.getName().hashCode()) {
 				return systems.get(i);
 			}
 		}
@@ -70,12 +70,14 @@ public class World {
 		entity.setWorld(this);
 		entity.setId(++current_max_id);
 		entities.add(entity);
+		entity.setActived(true);
 		onUpdateEntities(entity, MODE_ADD); //Call to the system that an new entity have added, for insert it in the required systems
 	}
 
 	//Put an entity in the remove list
 	public void removeEntity(Entity entity) {
 		entitiesToRemove.add(entity);
+		entity.setActived(false);
 	}
 
 	//Call the system for each entities modification (ADD, UPDATE, and REMOVE)
