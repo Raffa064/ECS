@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class BinaryTree<T> {
-	private TreeNode<T> root = new TreeNode<>(null, 0, null);
+	private TreeNode<T> root = new TreeNode<>(0, null);
 	private int lastKey;
 	private T lastSearch;
 	private List<TreeNode<T>> childs = new ArrayList<>();
@@ -20,22 +20,15 @@ public class BinaryTree<T> {
 				recursivePut(node.childL, key, value);
 				return;
 			}
-			node.childL = new TreeNode<T>(node, key, value);
+			node.childL = new TreeNode<T>(key, value);
 		} else if (direc < 0) {
 			if (node.childR != null) {
 				recursivePut(node.childR, key, value);
 				return;
 			}
-			node.childR = new TreeNode<T>(node, key, value);
+			node.childR = new TreeNode<T>(key, value);
 		} else {
-			TreeNode newNode = new TreeNode(node.parent, key, value);
-			newNode.childL = node.childL;
-			newNode.childR = node.childR;
-			if (newNode.parent.childL == node) {
-				node.parent.childL = newNode;
-				return;
-			}
-		    node.parent.childR = newNode;
+			node.value = value;
 		}
 	}
 
@@ -111,20 +104,13 @@ public class BinaryTree<T> {
 	}
 
 	private static class TreeNode<T> {
-		private TreeNode parent;
 		private int key;
 		private T value;
 		private TreeNode<T> childL, childR;
 
-		private TreeNode(TreeNode parent, int key, T value) {
-			this.parent = parent;
+		private TreeNode(int key, T value) {
 			this.key = key;
 			this.value = value;
-		}
-
-		@Override
-		protected void finalize() throws Throwable {
-			super.finalize();
 		}
 	}
 }
