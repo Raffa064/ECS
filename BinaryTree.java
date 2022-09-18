@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class BinaryTree<T> {
-	private TreeNode<T> root = new TreeNode<>(0, null);
+	private TreeNode<T> root = new TreeNode<>(null, 0, null);
 	private int lastKey;
 	private T lastSearch;
 	private List<TreeNode<T>> childs = new ArrayList<>();
@@ -20,13 +20,22 @@ public class BinaryTree<T> {
 				recursivePut(node.childL, key, value);
 				return;
 			}
-			node.childL = new TreeNode<T>(key, value);
+			node.childL = new TreeNode<T>(node, key, value);
 		} else if (direc < 0) {
 			if (node.childR != null) {
 				recursivePut(node.childR, key, value);
 				return;
 			}
-			node.childR = new TreeNode<T>(key, value);
+			node.childR = new TreeNode<T>(node, key, value);
+		} else {
+			TreeNode newNode = new TreeNode(node.parent, key, value);
+			newNode.childL = node.childL;
+			newNode.childR = node.childR;
+			if (newNode.parent.childL == node) {
+				node.parent.childL = newNode;
+				return;
+			}
+		    node.parent.childR = newNode;
 		}
 	}
 
@@ -53,26 +62,26 @@ public class BinaryTree<T> {
 			return node.value;
 		}
 	}
-	
+
 	public void remove(int key) {
 		TreeNode<T>[] nodes = recursiveGetNodeAndParent(null, root, key);
 		if (nodes == null) return;
-		
+
 		TreeNode parent = nodes[0];
 		TreeNode removed = nodes[1];
-		
+
 		if (parent.childL == removed) {
 			parent.childL = null;
 		} else {
 			parent.childR = null;
 		}
-		
+
 		recursiveGetChilds(removed, childs);
 		for (TreeNode<T> node : childs) {
 			put(node.key, node.value);
 		}
 	}
-	
+
 	private void recursiveGetChilds(TreeNode<T> root, List<TreeNode<T>> output) {
 		if (root.childL != null) {
 			output.add(root.childL);
@@ -83,7 +92,7 @@ public class BinaryTree<T> {
 			recursiveGetChilds(root.childR, output);
 		}
 	}
-	
+
 	private TreeNode<T>[] recursiveGetNodeAndParent(TreeNode<T> parent, TreeNode<T> node, int key) {
 		int direc = (key - node.key);
 		if (direc > 0) {
@@ -102,11 +111,13 @@ public class BinaryTree<T> {
 	}
 
 	private static class TreeNode<T> {
+		private TreeNode parent;
 		private int key;
 		private T value;
 		private TreeNode<T> childL, childR;
 
-		private TreeNode(int key, T value) {
+		private TreeNode(TreeNode parent, int key, T value) {
+			this.parent = parent;
 			this.key = key;
 			this.value = value;
 		}
