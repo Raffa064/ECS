@@ -153,7 +153,12 @@ world.update(0); //O parametro delta pode ser 0, caso voce não saiba o que é, 
 Ao executar, se tudo correr bem, estara escrito "Fulano" no console.
 
 ## Outras informações:
+- Agora a BinaryTree não inicia com uma root padrão, ou seja, o primeiro *put* define a raiz.
+- Após a ultima alterações no BinaryTree, o metodo **put** retorna **int**, sendo:
+- - 0 quando você tenta usar 2 chaves iguais;
+- - 1 quando tudo ocorrer bem.
 - O World.update tem que ser executado a cada frame, para que todos os sistemas sejam executados e atualizados.
 - O World internamente atualiza sozinho todos os sistemas sempre que uma entidade é adicionada/atualizada/removida, e o mesmo ocorre caso você adicione um sistema após o inicil da execução, ou seja, sempre, amenos que você cause alguma interferencia, os sistemas estarão sempre atualizados.
 - O uso da classe EntityFactory é so um tipo de *design pattern* padrão desse tipo de sistema mas não é obrigatório, e seu objetivo é organizar os codigos para criação de entidades.
 - Após as ultimas atualizações, as entidades armazenam os components numa *Binary tree*, o que melhora o desemprenho ja que o getComponent custuma ser chamado pelomenos 1 vez para cada sistema.
+
