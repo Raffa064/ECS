@@ -72,6 +72,26 @@ public class World {
 		entity.setActived(true);
 		onUpdateEntities(entity, MODE_ADD); //Call to the system that an new entity have added, for insert it in the required systems
 	}
+	
+	//Add multiple entities to the world
+	public void addEntities(Entity... entities) {
+		for (Entity entity : entities) {
+			addEntity(entity);
+		}
+	}
+
+	//Alias to quick add entities
+	public <T extends Entity> T $(T entity) {
+		addEntity(entity);
+		return entity;
+	}
+	
+
+	//Alias to quick add systems
+	public <T extends System> T add(T system) {
+		addSystem(system);
+		return system;
+	}
 
 	//Put an entity in the remove list
 	public void removeEntity(Entity entity) {
