@@ -26,6 +26,17 @@ public class Entity {
 		return world;
 	}
 	
+	//Alias to add component
+	public <T extends Component> T $(T component) {
+		addComponent(component);
+		return component;
+	}
+
+	//Alias to get component
+	public <T extends Component> T $(Class<T> componentClass) {
+		return getComponent(componentClass);
+	}
+	
 	//Returns true when constains all given Component classes
 	public boolean contains(Class<? extends Component>... componentClasses) {
 		for (Class<? extends Component> c : componentClasses) {
