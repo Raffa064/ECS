@@ -29,6 +29,13 @@ public class World {
 		addEntity(entity);
 		return entity;
 	}
+    
+    //Alias to quick add multiple systems
+    public <T extends System> void $(T... systems) {
+        for (T system : systems) {
+            addSystem(system);
+        }
+	}
 
 	//Alias to quick add systems
 	public <T extends System> T $(T system) {
@@ -134,7 +141,7 @@ public class World {
 			debugger.start();
 			system.start();
 			for (Entity entity : system.entities) {
-				system.process(this, entity, delta);
+				system._process(this, entity, delta);
 				debugger.iterations++;
 			}
 			system.end();
